@@ -14,7 +14,7 @@ class DoublyLinkedList (var prev: DoublyLinkedList?, val data: Any, var next: Do
         var list: DoublyLinkedList? = null
 
         /**
-         * Stores the umber of elements in the linked list
+         * Stores the number of nodes in the doubly linked list
          */
         private var countNode = 0
 
