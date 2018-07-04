@@ -4,89 +4,154 @@
  * data : used to store the data of Any kind
  * next : used to store the reference of the next node
  */
-class DoublyLinkedList (var prev: DoublyLinkedList?, val data: Any, var next: DoublyLinkedList?)  {
+class DoublyLinkedList {
+
+    data class Node(var prev: Node? = null, val data: Any, var next: Node? = null)
 
     companion object {
 
         /**
          * It is the head of the doubly linked list
          */
-        var list: DoublyLinkedList? = null
+        var head: Node? = null
 
         /**
-         * Stores the number of nodes in the doubly linked list
+         * Inserts the given node at the beginning of the doubly linked list
          */
-        private var countNode = 0
-
-        /**
-         * The function accepts the object as the argument and adds a node to the doubly linked list
-         */
-        fun addNode(data: Any) {
-            if(list==null) {
-                list = DoublyLinkedList(null, data, null)
-            }
-            else {
-                var temp = list
-                while (temp?.next != null)
-                    temp = temp.next
-
-                temp?.next = DoublyLinkedList(temp, data, null)
-            }
-            countNode++
+        fun insertFirst(node: Node) {
+            node.prev = null
+            node.next = head
+            head = node
         }
 
+        /**
+         * Inserts the given node at the end of the doubly linked list
+         */
+        fun insertLast(node: Node) {
+            if(head == null) {
+                head = node
+            }
+            else {
+                var temp = head
+                while (temp?.next != null) {
+                    temp = temp.next
+                }
+                node.prev = temp
+                temp?.next = node
+            }
+        }
 
         /**
-         * The traverse() function traverses through the entire linked list and prints each element
+         * Inserts the given node before a specified node in the doubly linked list
          */
-        fun traverse() {
-            var temp = list
-            while (temp!=null) {
+        fun insertBefore(node: Node, next_node: Node) {
+            node.prev = next_node.prev
+            node.next = next_node
+
+            next_node.prev = node
+            if(node.prev != null) {
+                node.prev?.next = node
+            }
+        }
+
+        /**
+         * Inserts the given node after a specified node in the doubly linked list
+         */
+        fun insertAfter(node: Node, prev_node: Node) {
+            node.next = prev_node.next
+            node.prev = prev_node
+
+            prev_node.next = node
+            if(node.next != null) {
+                node.next?.prev = node
+            }
+        }
+
+        /**
+         * Deletes a particular node from the doubly linked list
+         * Throws exception if the node to be deleted is not present in the doubly linked list
+         */
+        fun deleteNode(node: Node) {
+            var temp = head
+
+            while (temp != null && temp != node) {
+                temp = temp.next
+            }
+
+            if(temp == null) {
+                throw IllegalArgumentException("Node is not present in the doubly linked list")
+            }
+            else {
+                if(temp.prev == null) {     // whether the element to be deleted is the first element in the linked list
+                    temp.next?.prev = null
+                    head = temp.next
+                }
+                else {
+                    temp.prev?.next = temp.next
+                    if(temp.next != null) { // whether the element to be deleted is the last element in the linked list
+                        temp.next?.prev = temp.prev
+                    }
+                }
+            }
+        }
+
+        /**
+         * Reverses the doubly linked list
+         */
+        fun reverse() {
+            var temp = head
+            if(head == null) {
+                return
+            }
+            else {
+                while (true) {
+                    val t = temp?.prev
+                    temp?.prev = temp?.next
+                    temp?.next = t
+
+                    if(temp?.prev == null) {
+                        break
+                    }
+                    else {
+                        temp = temp.prev
+                    }
+                }
+                head = temp
+            }
+        }
+
+        /**
+         * Traverses along the linked list in forward direction and prints each element
+         */
+        fun traverseInOrder() {
+            var temp = head
+            while (temp != null) {
                 println(temp.data)
                 temp = temp.next
             }
         }
 
-
         /**
-         * The removeNode() funtion removes the node at a given index.
-         * Returns true if the element is successfully removed otherwise, returns false
+         * Traverses along the linked list in reverse direction and prints each element
          */
-        fun removeNode(index : Int) : Boolean {
-
-            if(index>= countNode|| index<0 || countNode<0)
-                return false
-            else {
-                when (index) {
-                    0 -> {              // whether the element to be removed is the first element in the list
-                        list?.next?.prev = null
-                        list = list?.next
-                    }
-                    else -> {
-                        var temp = list
-                        for (i in 0 until index) {
-                            temp = temp?.next
-                        }
-                        temp?.prev?.next = temp?.next
-                        if(index<countNode-1)
-                            temp?.next?.prev = temp?.prev
-                    }
-                }
-                countNode--
-                return true
+        fun traverseReverseOrder(temp: Node? = head) {
+            if(temp != null) {
+                traverseReverseOrder(temp.next)
+                println(temp.data)
             }
         }
     }
-
 }
 
-
 fun main(args: Array<String>) {
-    DoublyLinkedList.addNode("abhay")
-    DoublyLinkedList.addNode(12345)
-    DoublyLinkedList.addNode(5.6)
+    DoublyLinkedList.insertLast(DoublyLinkedList.Node(data = "abhay"))
+    DoublyLinkedList.insertLast(DoublyLinkedList.Node(data = 12345))
+    DoublyLinkedList.insertLast(DoublyLinkedList.Node(data = 'c'))
+    DoublyLinkedList.insertLast(DoublyLinkedList.Node(data = 4.5))
 
-    DoublyLinkedList.traverse()
-    DoublyLinkedList.removeNode(2)
-    DoublyLinkedList.traverse()
+    DoublyLinkedList.traverseInOrder()
+
+    DoublyLinkedList.reverse()
+    DoublyLinkedList.traverseInOrder()
+    DoublyLinkedList.traverseReverseOrder()
 }
