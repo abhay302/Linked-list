@@ -54,28 +54,22 @@ class DoublyLinkedList (var prev: DoublyLinkedList?, val data: Any, var next: Do
          */
         fun removeNode(index : Int) : Boolean {
 
-            if(index> countNode|| index<0 || countNode<0)
+            if(index>= countNode|| index<0 || countNode<0)
                 return false
             else {
                 when (index) {
-
                     0 -> {              // whether the element to be removed is the first element in the list
                         list?.next?.prev = null
                         list = list?.next
                     }
-                    countNode-1 -> {    // whether the element to be removed is the last element in the list
+                    else -> {
                         var temp = list
-                        while (temp?.next?.next!=null)
-                            temp = temp?.next
-                        temp?.next = null
-                    }
-                    else -> {           // removes element if present in the middle of the list
-                        var temp = list
-                        for (i in 0..index-2) {
+                        for (i in 0 until index) {
                             temp = temp?.next
                         }
-                        temp?.next?.next?.prev = temp
-                        temp?.next = temp?.next?.next
+                        temp?.prev?.next = temp?.next
+                        if(index<countNode-1)
+                            temp?.next?.prev = temp?.prev
                     }
                 }
                 countNode--
