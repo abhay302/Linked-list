@@ -28,10 +28,9 @@ class DoublyLinkedList {
          * Inserts the given node at the end of the doubly linked list
          */
         fun insertLast(node: Node) {
-            if(head == null) {
+            if (head == null) {
                 head = node
-            }
-            else {
+            } else {
                 var temp = head
                 while (temp?.next != null) {
                     temp = temp.next
@@ -49,7 +48,7 @@ class DoublyLinkedList {
             node.next = next_node
 
             next_node.prev = node
-            if(node.prev != null) {
+            if (node.prev != null) {
                 node.prev?.next = node
             }
         }
@@ -62,7 +61,7 @@ class DoublyLinkedList {
             node.prev = prev_node
 
             prev_node.next = node
-            if(node.next != null) {
+            if (node.next != null) {
                 node.next?.prev = node
             }
         }
@@ -78,17 +77,15 @@ class DoublyLinkedList {
                 temp = temp.next
             }
 
-            if(temp == null) {
+            if (temp == null) {
                 throw IllegalArgumentException("Node is not present in the doubly linked list")
-            }
-            else {
-                if(temp.prev == null) {     // whether the element to be deleted is the first element in the linked list
+            } else {
+                if (temp.prev == null) {     // whether the element to be deleted is the first element in the linked list
                     temp.next?.prev = null
                     head = temp.next
-                }
-                else {
+                } else {
                     temp.prev?.next = temp.next
-                    if(temp.next != null) { // whether the element to be deleted is the last element in the linked list
+                    if (temp.next != null) { // whether the element to be deleted is the last element in the linked list
                         temp.next?.prev = temp.prev
                     }
                 }
@@ -100,19 +97,17 @@ class DoublyLinkedList {
          */
         fun reverse() {
             var temp = head
-            if(head == null) {
+            if (head == null) {
                 return
-            }
-            else {
+            } else {
                 while (true) {
                     val t = temp?.prev
                     temp?.prev = temp?.next
                     temp?.next = t
 
-                    if(temp?.prev == null) {
+                    if (temp?.prev == null) {
                         break
-                    }
-                    else {
+                    } else {
                         temp = temp.prev
                     }
                 }
@@ -135,7 +130,7 @@ class DoublyLinkedList {
          * Traverses along the linked list in reverse direction and prints each element
          */
         fun traverseReverseOrder(temp: Node? = head) {
-            if(temp != null) {
+            if (temp != null) {
                 traverseReverseOrder(temp.next)
                 println(temp.data)
             }
