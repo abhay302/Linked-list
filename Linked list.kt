@@ -101,7 +101,11 @@ class DoublyLinkedList {
                 return
             } else {
                 while (true) {
-                    temp?.prev = temp?.next.apply { temp?.next = temp?.prev }
+                    with(temp?.prev) {
+                        temp?.prev = temp?.next
+                        temp?.next = this
+                    }
+
                     if (temp?.prev == null) {
                         break
                     } else {
