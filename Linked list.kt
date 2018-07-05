@@ -1,11 +1,14 @@
 /**
- * The DoublyLinkedList class has 3 fields:
- * prev : used to store the reference of the previous node
- * data : used to store the data of Any kind
- * next : used to store the reference of the next node
+ * It represents the doubly linked list.
  */
 class DoublyLinkedList {
 
+    /**
+     * Node represents a particular node of the linked list. It has three members:
+     * prev : used to store the reference of the previous node
+     * data : used to store the data of Any kind
+     * next : used to store the reference of the next node
+     */
     data class Node(var prev: Node? = null, val data: Any, var next: Node? = null)
 
     companion object {
