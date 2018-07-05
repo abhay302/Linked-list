@@ -101,10 +101,7 @@ class DoublyLinkedList {
                 return
             } else {
                 while (true) {
-                    val t = temp?.prev
-                    temp?.prev = temp?.next
-                    temp?.next = t
-
+                    temp?.prev = temp?.next.apply { temp?.next = temp?.prev }
                     if (temp?.prev == null) {
                         break
                     } else {
